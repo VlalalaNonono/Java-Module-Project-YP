@@ -29,23 +29,26 @@ public class Main {
     public static void ShoppingCard (ArrayList<Food> shoppingCard){
         Scanner scanner = new Scanner(System.in);
         String name;
-        double price;
-            System.out.println("Введите название корма");
-            name = scanner.nextLine();
-            System.out.println("Введите цену корма");
-        while (!scanner.hasNextDouble()) {
-            System.out.println("Возможно введена точка или буква");
-            System.out.println("Введите цену корма");
-            scanner.next();
-        }
-        do {
-            System.out.println("Введите цену корма");
-            price = scanner.nextDouble();
-            if (price < 0) {
-                System.out.println("Цена корма не может быть отрицательной!");
+        double price = 0;
+        boolean validInput = false;
+
+        System.out.println("Введите название корма");
+        name = scanner.nextLine();
+
+        while (!validInput) {
+            System.out.print("Введите цену корма: ");
+            if (scanner.hasNextDouble()) {
+                price = scanner.nextDouble();
+                if (price <= 0) {
+                    System.out.println("Цена корма не может быть отрицательной или равна нули (БЕСПЛАТНО НЕ КОРМИМ)!");
+                } else {
+                    validInput = true;
+                }
+            } else {
+                System.out.println("Возможно введена точка или буква");
+                scanner.nextLine();
             }
-        } while (price < 0);
-        scanner.nextLine();
+        }
         Food feed = new Food(name, price);
         shoppingCard.add(feed);
     }
@@ -70,19 +73,36 @@ class Calculator {
     public static double totalPricePerCats;
     public static int checkNumberOfCats() {
         Scanner scanner = new Scanner(System.in);
-        int cat;
-        do {
-            System.out.println("Введите количество котиков.");
-            while (!scanner.hasNextInt()){
-                System.out.println("Это не число");
-                scanner.next();
+        int cat = 0;
+        boolean validInput = false;
+
+        while (!validInput) {
+            System.out.print("Введите количество котиков: ");
+            if (scanner.hasNextInt()) {
+                cat = scanner.nextInt();
+                if (cat <= 1) {
+                    System.out.println("Котиков должно быть больше двух");
+                } else {
+                    validInput = true;
+                }
+            } else {
+                System.out.println("Возможно введены буквы или иные символы");
+                scanner.nextLine();
             }
-            cat = scanner.nextInt();
-            if (cat <= 1) {
-                System.out.println("Котиков должно быть больше двух");
-            }
-        } while (cat <= 1);
-        scanner.nextLine();
+        }
+//        do {
+//            System.out.println("Введите количество котиков.");
+//            while (!scanner.hasNextInt()){
+//                System.out.println("Это не число");
+//                System.out.println("Введите количество котиков.");
+//                scanner.next();
+//            }
+//            cat = scanner.nextInt();
+//            if (cat <= 1) {
+//                System.out.println("Котиков должно быть больше двух");
+//            }
+//        } while (cat <= 1);
+//        scanner.nextLine();
         System.out.println("Отлично");
         countCats = cat;
         return countCats;
